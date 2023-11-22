@@ -1,21 +1,8 @@
 # Parser
 
-**TODO: Add description**
+Learning how to use yecc and leex.
 
-## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `parser` to your list of dependencies in `mix.exs`:
+## Resources
 
-```elixir
-def deps do
-  [
-    {:parser, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/parser>.
-
+* [Tokenizing and parsing in Elixir with yecc and leex – Andrea Leopardi](https://andrealeopardi.com/posts/tokenizing-and-parsing-in-elixir-using-leex-and-yecc/)
