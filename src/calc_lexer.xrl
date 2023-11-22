@@ -9,7 +9,7 @@ Rules.
 
 {DIGIT}+\.{DIGIT}+ : {token, {float, TokenLine, list_to_float(TokenChars)}}.
 
-"[^\"]*" : {token, {string, TokenLine, string_literal(TokenChars)}}.
+"([^\\\"]|\\\")*" : {token, {string, TokenLine, string_literal(TokenChars)}}.
 
 \+ : {token, {'+', TokenLine}}.
 \- : {token, {'-', TokenLine}}.
@@ -25,4 +25,8 @@ Rules.
 Erlang code.
 
 string_literal(Str) ->
-  list_to_binary(string:strip(Str, both, $")).
+  {Str0, _} = lists:split(length(Str) - 1, Str),
+  {_, Str1} = lists:split(1, Str0),
+  list_to_binary(
+    string:replace(Str1, "\\\"", "\"", all)
+  ).
