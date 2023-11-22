@@ -1,4 +1,4 @@
-Terminals '+' '-' '*' '/' '^' '(' ')' int float.
+Terminals '+' '-' '*' '/' '^' '(' ')' int float string.
 
 Nonterminals eqn val num.
 
@@ -23,6 +23,7 @@ val -> '-' num : negate_num('$2').
 
 num -> int : extract_token('$1').
 num -> float : extract_token('$1').
+num -> string : extract_token('$1').
 
 Erlang code.
 

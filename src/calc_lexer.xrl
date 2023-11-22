@@ -9,6 +9,8 @@ Rules.
 
 {DIGIT}+\.{DIGIT}+ : {token, {float, TokenLine, list_to_float(TokenChars)}}.
 
+"[^\"]*" : {token, {string, TokenLine, string_literal(TokenChars)}}.
+
 \+ : {token, {'+', TokenLine}}.
 \- : {token, {'-', TokenLine}}.
 \* : {token, {'*', TokenLine}}.
@@ -21,3 +23,6 @@ Rules.
 
 
 Erlang code.
+
+string_literal(Str) ->
+  list_to_binary(string:strip(Str, both, $")).
