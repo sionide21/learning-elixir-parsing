@@ -24,3 +24,7 @@ parser-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+/src/list_lexer.erl
+/src/list_parser.erl
+

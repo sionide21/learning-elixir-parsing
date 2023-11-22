@@ -1,18 +1,18 @@
 defmodule Parser do
-  @moduledoc """
-  Documentation for `Parser`.
-  """
+  def parse(input) when is_list(input) do
+    with {:ok, tokens, _} <- :list_lexer.string(input) do
+      :list_parser.parse(tokens)
+    end
+  end
 
-  @doc """
-  Hello world.
+  def parse(input) when is_binary(input) do
+    input
+    |> :erlang.binary_to_list()
+    |> parse()
+  end
 
-  ## Examples
-
-      iex> Parser.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  defmacro sigil_l({:<<>>, _, [list]}, _) do
+    {:ok, ast} = parse(list)
+    ast
   end
 end
