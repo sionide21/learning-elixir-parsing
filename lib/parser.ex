@@ -1,4 +1,19 @@
 defmodule Parser do
+  def shell() do
+    IO.gets("> ")
+    |> case do
+      "\n" -> :ok
+      expr ->
+        expr
+        |> Parser.calc()
+        |> case do
+          {:ok, ast} -> IO.inspect(ast)
+          err -> IO.inspect(err)
+        end
+        shell()
+    end
+  end
+
   def parse(input) when is_list(input) do
     with {:ok, tokens, _} <- :list_lexer.string(input) do
       :list_parser.parse(tokens)
