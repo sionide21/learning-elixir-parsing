@@ -27,7 +27,7 @@ defmodule Parser do
   end
 
   def calc(input) when is_list(input) do
-    with {:ok, tokens, _} <- CalcLexer.string(input) do
+    with {:ok, tokens, _} <- CalcLexerHybrid.string(input) do
       :calc_parser.parse(tokens)
     end
   end
