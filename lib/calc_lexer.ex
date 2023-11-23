@@ -32,16 +32,17 @@ defmodule CalcLexer do
   end
 
   def string(<<delim>> <> rest, ctx) when delim in [?", ?}] do
-    length = match_string(rest, 0)
-    <<value::binary-size(length), end_delim>> <> rest = rest
-    value = String.replace(value, "\\\"", "\"")
+    {length, end_delim} = match_string(rest, 0)
+    delim_length = byte_size(end_delim)
+    <<value::binary-size(length), _::binary-size(delim_length)>> <> rest = rest
+    value = String.replace(value, ~r/\\(.)/, "\\g{1}")
 
     token =
       case {delim, end_delim} do
-        {?", ?"} -> :string_literal
-        {?", ?{} -> :string_start
-        {?}, ?{} -> :string_middle
-        {?}, ?"} -> :string_end
+        {?", "\""} -> :string_literal
+        {?", "\#{"} -> :string_start
+        {?}, "\#{"} -> :string_middle
+        {?}, "\""} -> :string_end
       end
 
     add_token(ctx, token, value, rest)
@@ -78,7 +79,9 @@ defmodule CalcLexer do
   def match_string(string, length) do
     case string do
       <<"\\", _>> <> rest -> match_string(rest, length + 2)
-      <<delim>> <> _ when delim in [?", ?{] -> length
+      <<"\\\#{">> <> rest -> match_string(rest, length + 3)
+      "\"" <> _ -> {length, "\""}
+      "\#{" <> _ -> {length, "\#{"}
       <<_>> <> rest -> match_string(rest, length + 1)
       "" -> :error
     end
