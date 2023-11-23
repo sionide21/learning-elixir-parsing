@@ -2,7 +2,9 @@ defmodule Parser do
   def shell() do
     IO.gets("> ")
     |> case do
-      "\n" -> :ok
+      "\n" ->
+        :ok
+
       expr ->
         expr
         |> Parser.calc()
@@ -10,6 +12,7 @@ defmodule Parser do
           {:ok, ast} -> IO.inspect(ast)
           err -> IO.inspect(err)
         end
+
         shell()
     end
   end
