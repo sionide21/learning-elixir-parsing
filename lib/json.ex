@@ -43,6 +43,22 @@ defmodule JSON do
     string
     |> Enum.drop(-1)
     |> :erlang.list_to_binary()
-    |> String.replace(~r/\\(.)/, "\\g{1}")
+    |> String.replace(~r/\\u[0-9A-Fa-f]/, fn "\\u" <> hexcode ->
+      hexcode
+      |> String.to_integer(16)
+      |> then(&<<&1>>)
+    end)
+    |> String.replace(~r/\\(.)/, fn "\\" <> chr ->
+      case chr do
+        "\"" -> "\""
+        "\\" -> "\\"
+        "b" -> "\b"
+        "f" -> "\f"
+        "n" -> "\n"
+        "r" -> "\r"
+        "t" -> "\t"
+        v -> v
+      end
+    end)
   end
 end
