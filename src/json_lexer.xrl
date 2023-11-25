@@ -11,8 +11,7 @@ WHITESPACE = [\s\t\n\r]
 
 Rules.
 
-{MINUS}?{DIGIT19}{DIGIT}*({DECIMAL}{DIGIT}+)?({E}({PLUS}|{MINUS})?{DIGIT}+)? : {token, {number, TokenLine, TokenChars}}.
-0 : {token, {number, TokenLine, "0"}}.
+{MINUS}?(0|{DIGIT19}{DIGIT}*)({DECIMAL}{DIGIT}+)?({E}({PLUS}|{MINUS})?{DIGIT}+)? : {token, {number, TokenLine, TokenChars}}.
 
 "([^\"\\]|\\.)*" : {token, {string, TokenLine, TokenChars}}.
 
