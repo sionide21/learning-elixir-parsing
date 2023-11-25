@@ -33,7 +33,9 @@ defmodule JSON do
     if String.match?(number, ~r/^\d+$/) do
       String.to_integer(number)
     else
-      String.to_float(number)
+      number
+      |> Float.parse()
+      |> then(fn {value, ""} -> value end)
     end
   end
 
